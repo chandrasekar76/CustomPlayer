@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Custom video player - Pandi Kumar</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background: green;
+  padding: 30px;
+  text-align: center;
+  font-size: 24px;
+  color: white;
+  vertical-align: top;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 500px;
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 10px;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 500px;
+}
+
+/* Clear floats after the columns */
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.buttonPlay {background: url(Images/Play.png); background-repeat: no-repeat, repeat; height:50px}
+.buttonPause {background: url(Images/Pause.png); background-repeat: no-repeat, repeat; height:50px}
+.buttonVolDec {background: url(Images/VolDec.png); background-repeat: no-repeat, repeat; height:50px}
+.buttonVolAdd {background: url(Images/VolAdd.png); background-repeat: no-repeat, repeat; height:50px}
+.labelVol {font-size:30px; border: solid blue; color: grey;}
+.buttonStop {background: url(Images/Stop.png); background-repeat: no-repeat, repeat; height:50px}
+.buttonMute {background: url(Images/Mute0.png); background-repeat: no-repeat, repeat; height:50px}
+.buttonLike {background: url(Images/Like0.png); background-repeat: no-repeat, repeat; height:50px}
+.buttonUnLike {background: url(Images/UnLike0.png); background-repeat: no-repeat, repeat; height:50px}
+</style>
+</head>
+<body>
+<header>
+Custom video player
+</header>
+<section>
+<article>
+<video id="video1" width="100%" height="400px" controls="controls">
+  <source id = "mp4VideoSrc" src="" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+<div align="center" id="dvBtns">
+ <span>
+ <button class="button buttonPlay" onclick="btnPlayClick()" type="button" id="btnPlay"></button>
+ <button class="button buttonPause" onclick="btnPauseClick()" type="button" id="btnPause"></button>
+ <button class="button buttonStop" onclick="btnStopClick()" type="button" id = "btnStop"></button>
+ <button class="button buttonVolDec" onclick="btnVolDecClick()" type="button"></button>
+ <label class="label labelVol" for="0" id="lblVol"></label>
+ <button class="button buttonVolAdd" onclick="btnVolAddClick()" type="button"></button>
+ <button class="button buttonMute" onclick="btnMuteClick()" type="button" id = "btnMute"></button>
+ <button class="button buttonLike" onclick="btnLikeClick()" type="button" id = "btnLike"></button>
+ <label style="font-size:25px; color:#4CAF50;" id="lblLike"></label>
+ <button class="button buttonUnLike" onclick="btnUnLikeClick()" type="button" id = "btnUnLike"></button>
+ <label style="font-size:25px; color:#f44336;" id="lblUnLike"></label>
+ <input type="hidden" id="hdnField1" name = "hdnField1" value="">
+ <br/>
+ <progress id="progressBar" min='0' max='100' value='0' style="width:78%;" ></progress>
+ </span>
+</article>
+</div>
+<nav>
+<div align="center" style="background-color:green; color:white">Play list</div>
+	<div class="list-group">
+      <a href="javascript:void(0)" class="list-group-item" id="sample video 1.mp4">Sample video 1</a>
+      <a href="javascript:void(0)" class="list-group-item" id="sample video 2.mp4">Sample video 2</a>
+      <a href="javascript:void(0)" class="list-group-item" id="sample video 3.mp4">Sample video 3</a>
+	  <a href="javascript:void(0)" class="list-group-item" id="sample video 4.mp4">Sample video 4</a>
+    </div>
+</nav>
+</section>
+
+<br />
+
+<script> 
+var vid = document.getElementById("video1");
+var dvBtns = document.getElementById("dvBtns");
+var play = document.getElementById("btnPlay");
+var pause = document.getElementById("btnPause");
+var mp4Src = document.getElementById("mp4VideoSrc");
+var vol = document.getElementById("lblVol");
+var stop = document.getElementById("btnStop");
+var mute = document.getElementById("btnMute");
+var like = document.getElementById("btnLike");
+var unlike = document.getElementById("btnUnLike");
+var lbLike = document.getElementById("lblLike");
+var lbUnLike = document.getElementById("lblUnLike");
+var hdnField = document.getElementById("hdnField1");
+var progressBar = document.getElementById("progressBar");
+var customPlayerIsMute = 'customPlayerIsMute';
+
+window.onload=initialize_page;
+
+function initialize_page() {
+  disableDefOptions();
+  dvBtns.style.visibility = "hidden";
+  vid.volume = '0.5';
+  vol.innerHTML = vid.volume.toFixed(1);
+  LocalStorageCustomSettings(); // To save Mute setting in local
+  if(GetCustomSettings(customPlayerIsMute) == 1){
+      alert('Custom video player mute enabled');
+	  vid.muted = 1;
+  }
+  else { vid.muted = 0; }
+  LoadMuteImage();
+  LocalStorageServerData(); // To save Like & UnLike in local
+
+  // Add a listener for the timeupdate event so we can update the progress bar
+	vid.addEventListener('timeupdate', updateProgressBar, false);
+	progressBar.addEventListener("click", seek);
+}
+
+function disableDefOptions() { 
+  vid.controls = false;
+  vid.load();
+}
+
+function LocalStorageCustomSettings(){
+	if (typeof(Storage) !== "undefined") {
+	  if(typeof(localStorage[customPlayerIsMute]) == "undefined"){
+	    SaveCustomSettings(customPlayerIsMute, 0);
+	  }
+	}
+}
+
+function SaveCustomSettings(key, value){
+	try{
+	  localStorage.removeItem(key);
+	}
+	catch(e) {}
+
+	localStorage[key] = value;
+}
+
+function GetCustomSettings(key){
+	return localStorage[key];
+}
+
+function LoadMuteImage(){
+	mute.style.backgroundImage = (vid.muted == 1) ? 'url(Images/Mute1.png)' : 'url(Images/Mute0.png)';
+}
+
+function LocalStorageServerData(){
+	if (typeof(Storage) !== "undefined") {
+	
+	  // To remove the local storage.
+	  //localStorage.clear();
+	
+	  // First time store the values in local storage
+	  if(typeof(localStorage['sample video 1.mp4']) == "undefined"){
+	    SaveFeedbackData('sample video 1.mp4', 70, 30, 0, 0);
+	  }
+	  if(typeof(localStorage['sample video 2.mp4']) == "undefined"){
+	    SaveFeedbackData('sample video 2.mp4', 80, 20, 0, 0);
+	  }
+	  if(typeof(localStorage['sample video 3.mp4']) == "undefined"){
+	    SaveFeedbackData('sample video 3.mp4', 90, 10, 0, 0);
+	  }
+	  if(typeof(localStorage['sample video 4.mp4']) == "undefined"){
+	    SaveFeedbackData('sample video 4.mp4', 100, 0, 0, 0);
+	  }
+
+	  //var data = {};
+	  //data["mov_bbb.mp4"] = {totalLikes:70, totalUnLikes:30, IsLiked:0, IsUnLiked:1};
+	  //localStorage["mov_bbb.mp4"] = JSON.stringify(data);
+
+	  //localStorage.setItem("mov_bbb.mp4", '{id:"mov_bbb.mp4", totalLikes:70, totalUnLikes:50, IsLiked:0, IsUnLiked:0}');
+	}
+	else {
+	  lbLike.innerHTML = "NS";
+	  lbUnLike.innerHTML = "NS";
+	}
+}
+
+function SaveFeedbackData(selItem, totalLikes, totalUnLikes, IsLiked, IsUnLiked){
+	try{
+	  localStorage.removeItem(selItem);
+	}
+	catch(e) {}
+	
+	var data = {};
+	data[selItem] = {totalLikes: totalLikes, totalUnLikes: totalUnLikes, IsLiked: IsLiked, IsUnLiked: IsUnLiked};
+	localStorage[selItem] = JSON.stringify(data);
+	data = null;
+}
+
+function LoadFeedbackData(selectedItem){
+	try{
+	  var data = "", rows = {};
+	  data = localStorage[selectedItem];
+	  if(data != ""){
+	    rows = JSON.parse(data);
+	    lbLike.innerHTML = rows[selectedItem].totalLikes;
+	    lbUnLike.innerHTML = rows[selectedItem].totalUnLikes;
+	    like.style.backgroundImage = (rows[selectedItem].IsLiked == 1) ? 'url(Images/Like1.png)' : 'url(Images/Like0.png)';
+	    unlike.style.backgroundImage = (rows[selectedItem].IsUnLiked == 1) ? 'url(Images/UnLike1.png)' : 'url(Images/UnLike0.png)';
+	  }
+	}
+	catch(e){
+	  lbLike.innerHTML = "NA";
+	  lbUnLike.innerHTML = "NA";
+	}
+}
+
+function btnMuteClick(){
+	if(vid.muted == true){
+	  vid.muted = 0;
+	  SaveCustomSettings(customPlayerIsMute, 0);
+	}
+	else{
+	vid.muted = 1;
+	SaveCustomSettings(customPlayerIsMute, 1);
+	}
+	LoadMuteImage();
+}
+
+function btnLikeClick(){
+	try{
+	  var data = "", rows = {};
+	  var selItem = hdnField.value;
+	  data = localStorage[selItem];
+	  if(data != ""){
+	    var LikeCount = 0, unLikeCount = 0;
+		var totalLikes = 0, totalUnLikes = 0, IsLiked = 0, IsUnLiked = 0;
+		rows = JSON.parse(data);
+		totalLikes = rows[selItem].totalLikes;
+		totalUnLikes = rows[selItem].totalUnLikes;
+		IsLiked = rows[selItem].IsLiked;
+		IsUnLiked = rows[selItem].IsUnLiked;
+		
+		if(IsLiked == 1){ // To check the video has already liked
+		  LikeCount = -1;
+		  IsLiked = 0;
+		}
+		else{
+		  LikeCount = 1;
+		  IsLiked = 1;
+		  
+		  if(IsUnLiked == 1){ // To check the video has already unliked
+			unLikeCount = -1;
+			IsUnLiked = 0;
+		  }
+		}
+		
+		totalLikes = totalLikes + LikeCount;
+		totalUnLikes = totalUnLikes + unLikeCount;
+		
+		lbLike.innerHTML = totalLikes;
+		lbUnLike.innerHTML = totalUnLikes;
+		
+		SaveFeedbackData(selItem, totalLikes, totalUnLikes, IsLiked, IsUnLiked);
+		LoadFeedbackData(selItem);
+	  }
+	}
+	catch(e){ alert(e); }
+}
+
+function btnUnLikeClick(){
+	try{
+	  var data = "", rows = {};
+	  var selItem = hdnField.value;
+	  data = localStorage[selItem];
+	  if(data != ""){
+	    var LikeCount = 0, unLikeCount = 0;
+		var totalLikes = 0, totalUnLikes = 0, IsLiked = 0, IsUnLiked = 0;
+		rows = JSON.parse(data);
+		totalLikes = rows[selItem].totalLikes;
+		totalUnLikes = rows[selItem].totalUnLikes;
+		IsLiked = rows[selItem].IsLiked;
+		IsUnLiked = rows[selItem].IsUnLiked;
+		
+		if(IsUnLiked == 1){ // To check the video has already Unliked
+		  unLikeCount = -1;
+		  IsUnLiked = 0;
+		}
+		else{
+		  unLikeCount = 1;
+		  IsUnLiked = 1;
+		  
+		  if(IsLiked == 1){ // To check the video has already liked
+			LikeCount = -1;
+			IsLiked = 0;
+		  }
+		}
+		
+		totalLikes = totalLikes + LikeCount;
+		totalUnLikes = totalUnLikes + unLikeCount;
+		
+		lbLike.innerHTML = totalLikes;
+		lbUnLike.innerHTML = totalUnLikes;
+		
+		SaveFeedbackData(selItem, totalLikes, totalUnLikes, IsLiked, IsUnLiked);
+		LoadFeedbackData(selItem);
+	  }
+	}
+	catch(e){ alert(e); }
+}
+
+function supportType(e,vidType,codType) { 
+  var vid = document.createElement('video');
+  isSupp = vid.canPlayType(vidType+';codecs="'+codType+'"');
+  if (isSupp == "") {
+    isSupp = "No";
+  }
+  e.target.parentNode.innerHTML = "Answer: " + isSupp;
+}
+
+$("a").click(function(){
+  $(this).addClass("active");
+  $(this).siblings().removeClass("active");
+  //alert($(this).attr('id'));
+  dvBtns.style.visibility = "visible";
+
+  jQuery("#btnPause").attr('disabled','disabled').css('opacity',0.5);
+  jQuery("#btnStop").attr('disabled','disabled').css('opacity',0.5);
+  play.disabled = false;
+  jQuery("#btnPlay").css('opacity',1.0);
+  
+  mp4Src.src = "Videos/" + $(this).attr('id');
+  vid.load();
+  LoadFeedbackData($(this).attr('id'));
+  hdnField.value = $(this).attr('id');
+  
+  progressBar.value = 0;
+  vid.currentTime = 0;
+});
+
+function btnPlayClick(){
+  jQuery("#btnPlay").attr('disabled','disabled').css('opacity',0.5);
+  pause.disabled = false;
+  jQuery("#btnPause").css('opacity',1.0);
+  stop.disabled = false;
+  jQuery("#btnStop").css('opacity',1.0);
+  vid.play();
+}
+
+function btnPauseClick(){
+  jQuery("#btnPause").attr('disabled','disabled').css('opacity',0.5);
+  play.disabled = false;
+  jQuery("#btnPlay").css('opacity',1.0);
+  vid.pause();
+}
+
+function btnStopClick(){
+  jQuery("#btnPause").attr('disabled','disabled').css('opacity',0.5);
+  jQuery("#btnStop").attr('disabled','disabled').css('opacity',0.5);
+  play.disabled = false;
+  jQuery("#btnPlay").css('opacity',1.0);
+  vid.pause();
+  vid.currentTime = 0;
+}
+
+function btnVolDecClick(){
+  if(vid.volume.toFixed(1) > 0.0){
+    vid.volume = vid.volume.toFixed(1) - 0.1
+    vol.innerHTML = vid.volume.toFixed(1);
+    }
+  else{
+    alert('Reached the start level volume');
+    vol.innerHTML = '0.0'.toFixed(1);
+    }
+}
+
+function btnVolAddClick(){
+  if(vid.volume.toFixed(1) < 1.0){
+    vid.volume = Number(vid.volume.toFixed(1)) + 0.1;
+    vol.innerHTML = vid.volume.toFixed(1);
+    }
+  else{
+    alert('Reached the end level volume');
+    vol.innerHTML = '1.0'.toFixed(1);
+    }
+}
+
+vid.onended = function() {
+  jQuery("#btnPause").attr('disabled','disabled').css('opacity',0.5);
+  jQuery("#btnStop").attr('disabled','disabled').css('opacity',0.5);
+  play.disabled = false;
+  jQuery("#btnPlay").css('opacity',1.0);
+};
+
+
+	
+  function seek(e) {
+      var percent = e.offsetX / this.offsetWidth;
+      vid.currentTime = percent * vid.duration;
+      e.target.value = Math.floor(percent / 100);
+      e.target.innerHTML = progressBar.value + '% played';
+  }
+  
+  // Update the progress bar
+  function updateProgressBar() {
+  	// Work out how much of the media has played via the duration and currentTime parameters
+  	var percentage = Math.floor((100 / vid.duration) * vid.currentTime);
+  	// Update the progress bar's value
+  	progressBar.value = percentage;
+  	// Update the progress bar's text (for browsers that don't support the progress element)
+  	progressBar.innerHTML = percentage + '% played';
+  }
+	
+</script>
+<noscript>Sorry, your browser does not support JavaScript!</noscript>
+</body> 
+</html>

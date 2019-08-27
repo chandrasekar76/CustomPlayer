@@ -1,0 +1,13 @@
+https://www.w3schools.com/tags/ref_av_dom.asp
+https://codepen.io/blackjacques/pen/bgamaj
+
+https://developer.mozilla.org/de/docs/Web/HTML/Using_HTML5_audio_and_video
+https://addpipe.com/blog/10-advanced-features-in-html5-video-player/#start-stop-the-video-at-certain-point-timestamp
+https://developer.mozilla.org/en-US/docs/Web/API/Storage
+https://all-free-download.com/free-icon/
+https://www.iconfinder.com/search/?q=like&price=free
+
+
+change icon size:
+https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_ev_onmouseover
+https://www.w3schools.com/tags/av_prop_src.asp

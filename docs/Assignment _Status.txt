@@ -1,0 +1,87 @@
+Assignment:HTML5, CSS3 & Bootstrap 4 
+Develop: Customized HTML5 Video Player
+Description:
+1. Use HTML5's media API to build a custom player
+2. Use Local Storage APIto store the likes and un-likes for each video
+3. Use Bootstrap4 to create responsive video player
+4. Create custom images (.png) for the buttons using:
+	a. Microsoft Paint
+	b. https://pixlr.com/editor/
+	c. https://www.getpaint.net/
+5. Feel free to customize the layout further to showcase your creativity
+6. Feel free to add more features to extend the functionality of the responsive custom video player.
+7. Feel free to use the color combinations  as per your creativity
+8. You may prefer to use Bootstrap4 glyphicons in place of icons/buttons in the custom video player
+9. Push the code changes to the internal GIT repository after every feature/stepdevelopment. Each step is given in “UI Guidelines” document.
+
+UI Guidelines:
+1. In attached document
+2. 001 HTML5, CSS3 & Bootstrap 4 - UI Guidelines.xlsx
+3. After you re done with assignment, complete the “evaluation check”sheet in the attached document.
+	a. Status of each activity can be “Done” OR “Not Done”
+	b. Feel free to add comments/remark in case you want toin “evaluation check” sheet:
+		i.E.g.
+		1. Assignment was good
+		2. Found difficult to implement this feature
+		3. Feature was difficult than expected
+	c. Specify if you have implemented new feature other than documented.
+
+Challenge–for the ones who love code adventures:
+1. The given challenge is optional.
+	a. As a challenge1, you may further extend the custom player to show subtitles.
+	b. As a challenge 2, each video in the playlist may start the playback from the same time where user left it previously.
+
+---------------------------------------------------
+1. Create video player with custom play/pause controls.<Vasanth: Done>
+	1.1 By default, play button is enabled and pause button is disabled
+	1.2 If video is playing, the play button should be disabled
+	1.3 If video is stopped/paused, the stop/paused button should be disabled
+	1.4 You may use bootstrap glyphicons for icons in video player
+	1.5 When page loads for the first time, the video must not start playing by default
+2. Extend the above video player with volume up/down controls.<Vasanth: Done>
+	2.1 Clicking on volume up button should increase playback volume
+	2.2 Clicking on volume down button shuld decrease the playback volume
+	2.3 You may use bootstrap glyphicons for icons in video player
+3. Add progress bar, video reload button, mute/unmute toggle button to above player
+	3.1 Clicking on reload butotn should start the video playback from start
+	3.2 Mute/Unmute (headphone) is a toggle button. Clicking on it will be iteratively mute or unmute the sound in video playback.
+	3.3 Progress bar is implemented using HTML5 progress bar element. Progress bar will change the value as per the percentage of video played.
+	3.4 You may use bootstrap glyphicons for icons in video player
+4. Add like and unlike buttons to the video player. Clicking on like and unlike should increase and decrease the number of likes and unlikes respectively.<Vasanth: Done>
+	4.1 The value for number of likes and un-likes should be saved in local storage and retrieved from the same.
+	4.2 Clicking on like and unlike should increase and decrease the number of likes and unlikes respectively.
+	4.3 You may use bootstrap glyphicons for icons in video player
+5. Add playlist to the above video player. Player must be responsive and should dynamically change the layout as user resizes the webpage.<Vasanth: Done>
+	5.1 Landscape mode - Playlist will shift to right in landscape mode
+	5.2 Clicking on item in the playlist should play the respective video in the video player, when in landscape mode
+	5.3 Portrait Mode - Playlist will go towards bottom when in portrait mode
+	5.4 Clicking on item in the playlist should play the respective video in the video player, when in portrait mode
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+S.no	Activity																		CheckAssociate 							Remark
+------------------------------------------------------------------------------------------------------------------------------------------------
+1. 		By default, play button is enabled and pause button is disabled						Done
+2.		If video is playing, the play button should be disabled								Done
+3. 		If video is stopped/paused, the stop/paused button should be disabled				Done
+4.		You may use bootstrap glyphicons for icons in video player						   	Not Done
+5.		When page loads for the first time, the video must not start playing by default		Done
+6.		Clicking on volume up button should increase playback volume						Done
+7.		Clicking on volume down button shuld decrease the playback volume					Done
+8.		Clicking on reload butotn should start the video playback from start				Done
+9.		Mute/Unmute (headphone) is a toggle button. Clicking on it will be iteratively 
+		mute or unmute the sound in video playback.											Done
+10.		Progress bar is implemented using HTML5 progress bar element. Progress bar will 
+		change the value as per the percentage of video played.								Done
+11.		The value for number of likes and un-likes should be saved in local storage and 
+		retrieved from the same.															Done
+12.		Clicking on like and unlike should increase and decrease the number of likes and
+		unlikes respectively.																Done
+13.		Landscape mode - Playlist will shift to right in landscape mode						Done
+14.		Portrait Mode - Playlist will go towards bottom when in portrait mode				Done
+15.		Clicking on item in the playlist should play the respective video in the video
+		player, when in portrait mode														Done
+16.		Clicking on item in the playlist should play the respective video in the video 
+		player, when in landscape mode														Done
+17.		Bootstrap is used to make the player responsive									Done/Not Done
+18.		New Feature other than documented												Done/Not Done					Specify the feature here
+------------------------------------------------------------------------------------------------------------------------------------------------
